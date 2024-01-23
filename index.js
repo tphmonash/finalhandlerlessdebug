@@ -11,7 +11,6 @@
  * @private
  */
 
-var debug = require('debug')('finalhandler')
 var encodeUrl = require('encodeurl')
 var escapeHtml = require('escape-html')
 var onFinished = require('on-finished')
@@ -90,7 +89,6 @@ function finalhandler (req, res, options) {
 
     // ignore 404 on in-flight response
     if (!err && headersSent(res)) {
-      debug('cannot 404 after headers sent')
       return
     }
 
@@ -115,8 +113,6 @@ function finalhandler (req, res, options) {
       msg = 'Cannot ' + req.method + ' ' + encodeUrl(getResourceName(req))
     }
 
-    debug('default %s', status)
-
     // schedule onerror callback
     if (err && onerror) {
       defer(onerror, err, req, res)
@@ -124,7 +120,6 @@ function finalhandler (req, res, options) {
 
     // cannot actually respond
     if (headersSent(res)) {
-      debug('cannot %d after headers sent', status)
       req.socket.destroy()
       return
     }
